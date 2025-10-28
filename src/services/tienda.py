@@ -161,6 +161,42 @@ class TiendaMuebles:
             return f"Error al calcular precio del mueble: {str(e)}"
         self._inventario.append(mueble)
         return f"Mueble {getattr(mueble, 'nombre', str(mueble))} agregado exitosamente al inventario"
+
+    # Compatibilidad: alias y API esperada por tests antiguos
+    @property
+    def inventario(self):
+        return self._inventario
+
+    def agregar_producto(self, producto: 'Mueble') -> str:
+        """Alias para agregar_producto (compatibilidad con tests)."""
+        return self.agregar_mueble(producto)
+
+    def vender_producto(self, nombre_o_obj):
+        """Compatibilidad: busca por nombre (str) o usa el objeto directamente.
+        Imprime un mensaje y devuelve True/False según éxito.
+        """
+        # Si recibieron un objeto
+        if not nombre_o_obj:
+            return False
+        # buscar por nombre si es string
+        if isinstance(nombre_o_obj, str):
+            for m in list(self._inventario):
+                try:
+                    if getattr(m, 'nombre', None) == nombre_o_obj:
+                        # procesar venta
+                        venta = self.realizar_venta(m, cliente="Cliente Mock")
+                        print(f"Venta realizada: {venta.get('mueble')}")
+                        return True
+                except Exception:
+                    continue
+            return False
+        else:
+            # tratar como objeto mueble
+            if nombre_o_obj in self._inventario:
+                venta = self.realizar_venta(nombre_o_obj, cliente="Cliente Mock")
+                print(f"Venta realizada: {venta.get('mueble')}")
+                return True
+            return False
     
     def agregar_comedor(self, comedor: 'Comedor') -> str:
         """
@@ -382,4 +418,9 @@ class TiendaMuebles:
             for categoria, descuento in descuentos.items():
                 reporte += f"- {categoria}: {descuento * 100:.1f}%\n"
         return reporte
+
+
+# Backwards compatibility: algunos tests/consumidores esperan la clase `Tienda`.
+# Proveer un alias para no romper imports existentes.
+Tienda = TiendaMuebles
 
