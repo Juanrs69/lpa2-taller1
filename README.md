@@ -22,7 +22,15 @@
 
 ```
 lpa2-taller1/
-├─ src/                   # Código del proyecto
+├── src/                   # Código del proyecto
+├── tests/
+│   ├── unit/              # Pruebas unitarias
+│   │   ├── models/
+│   │   └── conftest.py    # Configuración compartida
+│   ├── integration/       # Pruebas de integración
+│   └── fixtures/          # Datos de prueba
+├── .coveragerc            # Configuración de cobertura
+├── pytest.ini             # Configuración de pytest
 ├─ tests/
 │  ├─ fixtures/          # Datos de prueba
 │  ├─ unit/              # Pruebas unitarias
@@ -317,6 +325,12 @@ class TestTienda:
 ### Comandos Básicos
 
 - Configurar la variable de entorno `PYTHONPATH`:
+
+    ```bash
+    export PYTHONPATH=.
+    ```
+
+- Ejecutar todas las pruebas
 
     ```bash
     export PYTHONPATH=.
