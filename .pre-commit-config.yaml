@@ -1,0 +1,31 @@
+repos:
+  # Hooks genéricos
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace      # Elimina espacios finales
+        exclude: ^venv/
+      - id: end-of-file-fixer        # Asegura fin de archivo con nueva línea
+        exclude: ^venv/
+      - id: check-yaml               # Valida archivos YAML
+      - id: check-added-large-files  # Rechaza archivos grandes
+
+  # Ruff (linting y formateo)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
+    hooks:
+      - id: ruff
+        args: [ --fix ]              # Auto-corrige errores
+        exclude: ^venv/
+      - id: ruff-format
+        exclude: ^venv/
+
+  # Pytest (pruebas)
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true

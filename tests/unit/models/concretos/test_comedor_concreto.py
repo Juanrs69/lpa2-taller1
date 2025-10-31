@@ -17,7 +17,7 @@ def sillas():
 def test_comedor_concreto(mesa, sillas):
     comedor = ComedorConcreto(mesa, sillas)
     # comprobaciones básicas de composición
-    assert hasattr(comedor, 'mesa')
+    assert hasattr(comedor, "mesa")
     assert isinstance(comedor.mesa, Mesa)
     assert comedor.cantidad_sillas() == len(sillas)
     assert comedor.calcular_precio_total() >= mesa.calcular_precio()

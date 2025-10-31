@@ -1,11 +1,20 @@
-import pytest
 from src.models.concretos.sofacama import SofaCama
 from src.models.concretos.sofa import Sofa
 from src.models.concretos.cama import Cama
 
 
 def test_sofacama_herencia_y_str():
-    s = SofaCama("SofaCama X", "Tela", "Gris", 400, capacidad_personas=3, material_tapizado="tela", tamaño_cama="matrimonial", incluye_colchon=True, mecanismo_conversion="hidraulico")
+    s = SofaCama(
+        "SofaCama X",
+        "Tela",
+        "Gris",
+        400,
+        capacidad_personas=3,
+        material_tapizado="tela",
+        tamaño_cama="matrimonial",
+        incluye_colchon=True,
+        mecanismo_conversion="hidraulico",
+    )
     # herencia: debería comportarse como Sofa y Cama
     assert isinstance(s, Sofa)
     assert isinstance(s, Cama)
@@ -14,7 +23,16 @@ def test_sofacama_herencia_y_str():
 
 
 def test_convertir_modos_y_capacidades():
-    s = SofaCama("SC", "Tela", "Beige", 350, capacidad_personas=2, tamaño_cama="queen", incluye_colchon=False, mecanismo_conversion="electrico")
+    s = SofaCama(
+        "SC",
+        "Tela",
+        "Beige",
+        350,
+        capacidad_personas=2,
+        tamaño_cama="queen",
+        incluye_colchon=False,
+        mecanismo_conversion="electrico",
+    )
     # modo inicial sofa
     assert s.modo_actual == "sofa"
     # convertir a cama
@@ -33,8 +51,26 @@ def test_convertir_modos_y_capacidades():
 
 def test_calcular_precio_variantes():
     base = 300
-    s1 = SofaCama("A", "Tela", "N", base, capacidad_personas=3, tamaño_cama="matrimonial", incluye_colchon=True, mecanismo_conversion="hidraulico")
-    s2 = SofaCama("B", "Tela", "N", base, capacidad_personas=3, tamaño_cama="queen", incluye_colchon=False, mecanismo_conversion="electrico")
+    s1 = SofaCama(
+        "A",
+        "Tela",
+        "N",
+        base,
+        capacidad_personas=3,
+        tamaño_cama="matrimonial",
+        incluye_colchon=True,
+        mecanismo_conversion="hidraulico",
+    )
+    s2 = SofaCama(
+        "B",
+        "Tela",
+        "N",
+        base,
+        capacidad_personas=3,
+        tamaño_cama="queen",
+        incluye_colchon=False,
+        mecanismo_conversion="electrico",
+    )
     # s1 debe incluir recargos por matrimonial + colchon + hidraulico
     p1 = s1.calcular_precio()
     p2 = s2.calcular_precio()

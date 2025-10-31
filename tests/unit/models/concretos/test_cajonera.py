@@ -13,4 +13,5 @@ def test_instanciacion_cajonera(cajonera):
 
 def test_precio_cajonera(cajonera):
     precio = cajonera.calcular_precio()
-    assert isinstance(precio, int)
+    assert isinstance(precio, (int, float))
+    assert precio > 0

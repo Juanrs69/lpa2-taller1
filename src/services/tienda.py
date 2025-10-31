@@ -3,7 +3,8 @@ Servicio de la tienda que maneja la lógica de negocio.
 Esta clase implementa el patrón de servicio para separar la lógica de negocio de la UI.
 """
 
-from typing import List, Dict, Optional, Union
+from typing import List, Dict
+
 # Corrección de imports para ejecución directa
 from models.mueble import Mueble
 from models.composicion.comedor import Comedor
@@ -11,7 +12,6 @@ from models.composicion.comedor import Comedor
 
 
 class TiendaMuebles:
-
     def obtener_estadisticas(self) -> dict:
         """
         Retorna estadísticas básicas y acumulativas de la tienda para la UI.
@@ -31,10 +31,14 @@ class TiendaMuebles:
             for mueble in self._inventario:
                 tipo = type(mueble).__name__
                 tipos_muebles[tipo] = tipos_muebles.get(tipo, 0) + 1
-            ventas_realizadas = len(self._ventas_realizadas) if hasattr(self, '_ventas_realizadas') else 0
+            ventas_realizadas = (
+                len(self._ventas_realizadas)
+                if hasattr(self, "_ventas_realizadas")
+                else 0
+            )
             # Acumulativos
-            total_muebles_vendidos = getattr(self, '_total_muebles_vendidos', 0)
-            valor_total_ventas = getattr(self, '_valor_total_ventas', 0.0)
+            total_muebles_vendidos = getattr(self, "_total_muebles_vendidos", 0)
+            valor_total_ventas = getattr(self, "_valor_total_ventas", 0.0)
             return {
                 "total_muebles": total_muebles,
                 "total_comedores": total_comedores,
@@ -76,9 +80,13 @@ class TiendaMuebles:
             for mueble in self._inventario:
                 tipo = type(mueble).__name__
                 tipos_muebles[tipo] = tipos_muebles.get(tipo, 0) + 1
-            ventas_realizadas = len(self._ventas_realizadas) if hasattr(self, '_ventas_realizadas') else 0
-            total_muebles_vendidos = getattr(self, '_total_muebles_vendidos', 0)
-            valor_total_ventas = getattr(self, '_valor_total_ventas', 0.0)
+            ventas_realizadas = (
+                len(self._ventas_realizadas)
+                if hasattr(self, "_ventas_realizadas")
+                else 0
+            )
+            total_muebles_vendidos = getattr(self, "_total_muebles_vendidos", 0)
+            valor_total_ventas = getattr(self, "_valor_total_ventas", 0.0)
             return {
                 "total_muebles": total_muebles,
                 "total_comedores": total_comedores,
@@ -100,25 +108,26 @@ class TiendaMuebles:
                 "total_muebles_vendidos": 0,
                 "valor_total_ventas": 0.0,
             }
+
     """
     Clase que maneja toda la lógica de negocio de la tienda de muebles.
-    
+
     Esta clase implementa:
     - Gestión de inventario
     - Búsquedas y filtros
     - Cálculos de precios y descuentos
     - Operaciones de venta
-    
+
     Conceptos OOP aplicados:
     - Encapsulación: Agrupa toda la lógica relacionada con la tienda
     - Abstracción: Oculta la complejidad del manejo de inventario
     - Composición: Contiene colecciones de muebles
     """
-    
+
     def __init__(self, nombre_tienda: str = "Mueblería OOP"):
         """
         Constructor de la tienda.
-        
+
         Args:
             nombre_tienda: Nombre de la tienda
         """
@@ -131,19 +140,18 @@ class TiendaMuebles:
         self._total_muebles_vendidos: int = 0
         self._valor_total_ventas: float = 0.0
         pass
-    
 
     @property
     def nombre(self) -> str:
         """Getter para el nombre de la tienda."""
         return self._nombre
-    
+
     # @property
     # def total_muebles(self) -> int:
     #     """Retorna el total de muebles en inventario."""
     #     return len(self._inventario)
-    
-    def agregar_mueble(self, mueble: 'Mueble') -> str:
+
+    def agregar_mueble(self, mueble: "Mueble") -> str:
         """
         Agrega un mueble al inventario de la tienda.
         Args:
@@ -167,7 +175,7 @@ class TiendaMuebles:
     def inventario(self):
         return self._inventario
 
-    def agregar_producto(self, producto: 'Mueble') -> str:
+    def agregar_producto(self, producto: "Mueble") -> str:
         """Alias para agregar_producto (compatibilidad con tests)."""
         return self.agregar_mueble(producto)
 
@@ -182,7 +190,7 @@ class TiendaMuebles:
         if isinstance(nombre_o_obj, str):
             for m in list(self._inventario):
                 try:
-                    if getattr(m, 'nombre', None) == nombre_o_obj:
+                    if getattr(m, "nombre", None) == nombre_o_obj:
                         # procesar venta
                         venta = self.realizar_venta(m, cliente="Cliente Mock")
                         print(f"Venta realizada: {venta.get('mueble')}")
@@ -197,8 +205,8 @@ class TiendaMuebles:
                 print(f"Venta realizada: {venta.get('mueble')}")
                 return True
             return False
-    
-    def agregar_comedor(self, comedor: 'Comedor') -> str:
+
+    def agregar_comedor(self, comedor: "Comedor") -> str:
         """
         Agrega un comedor completo a la tienda.
         Args:
@@ -209,9 +217,11 @@ class TiendaMuebles:
         if comedor is None:
             return "Error: El comedor no puede ser None"
         self._comedores.append(comedor)
-        return f"Comedor {getattr(comedor, 'nombre', str(comedor))} agregado exitosamente"
-    
-    def buscar_muebles_por_nombre(self, nombre: str) -> List['Mueble']:
+        return (
+            f"Comedor {getattr(comedor, 'nombre', str(comedor))} agregado exitosamente"
+        )
+
+    def buscar_muebles_por_nombre(self, nombre: str) -> List["Mueble"]:
         """
         Busca muebles por nombre (búsqueda parcial, case-insensitive).
         Args:
@@ -227,11 +237,13 @@ class TiendaMuebles:
             if nombre_lower in mueble.nombre.lower():
                 resultados.append(mueble)
         return resultados
-    
-    def filtrar_por_precio(self, precio_min: float = 0, precio_max: float = float('inf')) -> List['Mueble']:
+
+    def filtrar_por_precio(
+        self, precio_min: float = 0, precio_max: float = float("inf")
+    ) -> List["Mueble"]:
         """
         Filtra muebles por rango de precios.
-        
+
         Args:
             precio_min: Precio mínimo (inclusivo)
             precio_max: Precio máximo (inclusivo)
@@ -249,11 +261,11 @@ class TiendaMuebles:
             except Exception:
                 continue  # Saltar muebles con errores de precio
         return resultados
-    
-    def filtrar_por_material(self, material: str) -> List['Mueble']:
+
+    def filtrar_por_material(self, material: str) -> List["Mueble"]:
         """
         Filtra muebles por material.
-        
+
         Args:
             material: Material a buscar
         Returns:
@@ -265,19 +277,23 @@ class TiendaMuebles:
         resultados = []
         for mueble in self._inventario:
             try:
-                if hasattr(mueble, 'material') and mueble.material and mueble.material.lower().strip() == material_lower:
+                if (
+                    hasattr(mueble, "material")
+                    and mueble.material
+                    and mueble.material.lower().strip() == material_lower
+                ):
                     resultados.append(mueble)
             except Exception:
                 continue
         return resultados
-    
-    def obtener_muebles_por_tipo(self, tipo_clase: type) -> List['Mueble']:
+
+    def obtener_muebles_por_tipo(self, tipo_clase: type) -> List["Mueble"]:
         """
         Obtiene todos los muebles de un tipo específico.
-        
+
         Args:
             tipo_clase: Clase del tipo de mueble (ej: Silla, Mesa, etc.)
-            
+
         Returns:
             List[Mueble]: Lista de muebles del tipo especificado
         """
@@ -288,11 +304,11 @@ class TiendaMuebles:
         #         resultados.append(mueble)
         # return resultados
         pass
-    
+
     def calcular_valor_inventario(self) -> float:
         """
         Calcula el valor total del inventario.
-        
+
         Returns:
             float: Valor total de todos los muebles en inventario
         """
@@ -303,20 +319,20 @@ class TiendaMuebles:
         #         valor_total += mueble.calcular_precio()
         #     except Exception:
         #         continue  # Saltar muebles con errores
-        
+
         # for comedor in self._comedores:
         #     try:
         #         valor_total += comedor.calcular_precio_total()
         #     except Exception:
         #         continue
-        
+
         # return round(valor_total, 2)
         pass
-    
+
     def aplicar_descuento(self, categoria: str, porcentaje: float) -> str:
         """
         Aplica un descuento a una categoría de muebles.
-        
+
         Args:
             categoria: Nombre de la categoría (ej: "sillas", "mesas")
             porcentaje: Porcentaje de descuento (0-100)
@@ -329,14 +345,18 @@ class TiendaMuebles:
         # Normalizar nombres de clase (Silla, Mesa, etc.)
         # El sistema usa el nombre de la clase, por ejemplo 'Silla', 'Mesa', etc.
         # Si el usuario ingresa 'sillas', 'mesas', etc., quitamos la 's' final si existe
-        if categoria_lower.endswith('s'):
+        if categoria_lower.endswith("s"):
             categoria_lower = categoria_lower[:-1]
         # Capitalizar para coincidir con el nombre de clase
         categoria_clase = categoria_lower.capitalize()
         self._descuentos_activos[categoria_clase] = porcentaje / 100
-        return f"Descuento del {porcentaje}% aplicado a la categoría '{categoria_clase}'"
-    
-    def realizar_venta(self, mueble: 'Mueble', cliente: str = "Cliente Anónimo") -> Dict:
+        return (
+            f"Descuento del {porcentaje}% aplicado a la categoría '{categoria_clase}'"
+        )
+
+    def realizar_venta(
+        self, mueble: "Mueble", cliente: str = "Cliente Anónimo"
+    ) -> Dict:
         """
         Procesa la venta de un mueble.
         Args:
@@ -356,8 +376,9 @@ class TiendaMuebles:
                 descuento_aplicado = self._descuentos_activos[tipo_mueble]
             precio_final = precio_original * (1 - descuento_aplicado)
             from datetime import datetime
+
             # Ensure mueble.nombre is always a string
-            nombre_mueble = getattr(mueble, 'nombre', None)
+            nombre_mueble = getattr(mueble, "nombre", None)
             if not nombre_mueble:
                 nombre_mueble = tipo_mueble
             venta = {
@@ -366,7 +387,7 @@ class TiendaMuebles:
                 "precio_original": precio_original,
                 "descuento": descuento_aplicado * 100,
                 "precio_final": round(precio_final, 2),
-                "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             }
             self._ventas_realizadas.append(venta)
             self._inventario.remove(mueble)
@@ -376,13 +397,12 @@ class TiendaMuebles:
             return venta
         except Exception as e:
             return {"error": f"Error al procesar la venta: {str(e)}"}
-    
-    
+
     def _contar_tipos_muebles(self) -> Dict[str, int]:
         """
         Cuenta cuántos muebles hay de cada tipo.
         Método privado auxiliar.
-        
+
         Returns:
             Dict[str, int]: Diccionario con el conteo por tipo
         """
@@ -393,7 +413,7 @@ class TiendaMuebles:
         #     conteo[tipo] = conteo.get(tipo, 0) + 1
         # return conteo
         pass
-    
+
     def generar_reporte_inventario(self) -> str:
         """
         Genera un reporte completo del inventario.
@@ -401,7 +421,7 @@ class TiendaMuebles:
             str: Reporte detallado del inventario
         """
         estadisticas = self.obtener_estadisticas() or {}
-        nombre_tienda = getattr(self, '_nombre', 'Tienda')
+        nombre_tienda = getattr(self, "_nombre", "Tienda")
         if not isinstance(estadisticas, dict):
             estadisticas = {}
         reporte = f"=== REPORTE DE INVENTARIO - {nombre_tienda} ===\n\n"
@@ -409,10 +429,10 @@ class TiendaMuebles:
         reporte += f"Total de comedores: {estadisticas.get('total_comedores', 0)}\n"
         reporte += f"Valor total del inventario: ${estadisticas.get('valor_inventario', 0):.2f}\n\n"
         reporte += "DISTRIBUCIÓN POR TIPOS:\n"
-        tipos = estadisticas.get('tipos_muebles', {}) or {}
+        tipos = estadisticas.get("tipos_muebles", {}) or {}
         for tipo, cantidad in tipos.items():
             reporte += f"- {tipo}: {cantidad} unidades\n"
-        descuentos = estadisticas.get('descuentos_activos', {}) or {}
+        descuentos = estadisticas.get("descuentos_activos", {}) or {}
         if descuentos:
             reporte += "\nDESCUENTOS ACTIVOS:\n"
             for categoria, descuento in descuentos.items():
@@ -423,4 +443,3 @@ class TiendaMuebles:
 # Backwards compatibility: algunos tests/consumidores esperan la clase `Tienda`.
 # Proveer un alias para no romper imports existentes.
 Tienda = TiendaMuebles
-

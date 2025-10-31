@@ -1,10 +1,25 @@
-import pytest
 from src.models.concretos.cama import Cama
 
 
 def test_cama_tamanos_y_extras():
-    c1 = Cama("C1", "Madera", "Natural", 300.0, tamaño="individual", incluye_colchon=False, tiene_cabecera=False)
-    c2 = Cama("C2", "Madera", "Natural", 300.0, tamaño="queen", incluye_colchon=True, tiene_cabecera=True)
+    c1 = Cama(
+        "C1",
+        "Madera",
+        "Natural",
+        300.0,
+        tamaño="individual",
+        incluye_colchon=False,
+        tiene_cabecera=False,
+    )
+    c2 = Cama(
+        "C2",
+        "Madera",
+        "Natural",
+        300.0,
+        tamaño="queen",
+        incluye_colchon=True,
+        tiene_cabecera=True,
+    )
     # comprobar que ambos calculan precio y que la queen+colchon es más caro
     p1 = c1.calcular_precio()
     p2 = c2.calcular_precio()

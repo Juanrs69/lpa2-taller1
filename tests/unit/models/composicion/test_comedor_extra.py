@@ -1,4 +1,3 @@
-import pytest
 from src.models.composicion.comedor import Comedor
 from src.models.concretos.mesa import Mesa
 from src.models.concretos.silla import Silla
@@ -19,6 +18,7 @@ def test_agregar_quitar_y_limite_sillas():
     # dependiendo de la capacidad, puede devolver mensaje de no se pueden agregar o éxito
     assert isinstance(res, str)
 
+
 def test_quitar_indice_invalido_y_vacio():
     mesa = Mesa("M", "Madera", "Natural", 100.0, capacidad_personas=1)
     comedor = Comedor("C", mesa, [])
@@ -26,7 +26,10 @@ def test_quitar_indice_invalido_y_vacio():
     # agregar una silla y quitar con indice inválido
     s = Silla("s", "Madera", "N", 30.0)
     comedor.agregar_silla(s)
-    assert comedor.quitar_silla(10) == "Índice de silla inválido" or isinstance(comedor.quitar_silla(10), str)
+    assert comedor.quitar_silla(10) == "Índice de silla inválido" or isinstance(
+        comedor.quitar_silla(10), str
+    )
+
 
 def test_descripcion_completa_y_resumen():
     mesa = Mesa("M", "Madera", "Natural", 120.0, capacidad_personas=4)

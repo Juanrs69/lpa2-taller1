@@ -1,4 +1,3 @@
-import pytest
 from src.services.tienda import TiendaMuebles
 
 
@@ -21,12 +20,15 @@ def test_agregar_mueble_precio_error():
 
 def test_buscar_y_filtrar():
     t = TiendaMuebles()
+
     class Item:
         def __init__(self, nombre, precio):
             self.nombre = nombre
             self._precio = precio
+
         def calcular_precio(self):
             return self._precio
+
     a = Item("Silla Roja", 50)
     b = Item("Mesa Azul", 200)
     t.agregar_mueble(a)
@@ -43,16 +45,19 @@ def test_buscar_y_filtrar():
 
 def test_aplicar_descuento_y_realizar_venta():
     t = TiendaMuebles()
+
     class Item:
         def __init__(self, nombre, precio):
             self.nombre = nombre
             self._precio = precio
+
         def calcular_precio(self):
             return self._precio
+
     it = Item("SillaDesc", 100)
     t.agregar_mueble(it)
     # aplicar descuento inválido
-    assert t.aplicar_descuento("sillas", 0) .startswith("Error")
+    assert t.aplicar_descuento("sillas", 0).startswith("Error")
     # aplicar descuento válido
     assert "aplicado" in t.aplicar_descuento("sillas", 10)
     # realizar venta por nombre

@@ -5,6 +5,7 @@ from src.models.mueble import Mueble
 class _Stub(Mueble):
     def calcular_precio(self):
         return 1.0
+
     def obtener_descripcion(self):
         return "stub"
 

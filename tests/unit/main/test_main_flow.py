@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 # Asegurar que el paquete 'ui' y 'services' importen desde el directorio src
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
@@ -7,8 +7,8 @@ SRC_PATH = os.path.join(ROOT, "src")
 if SRC_PATH not in sys.path:
     sys.path.insert(0, SRC_PATH)
 
-from src import main as main_module
-from src.services.tienda import TiendaMuebles
+from src import main as main_module  # noqa: E402
+from src.services.tienda import TiendaMuebles  # noqa: E402
 
 
 def test_crear_catalogo_y_comedores(capsys):

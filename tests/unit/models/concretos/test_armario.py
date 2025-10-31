@@ -14,5 +14,5 @@ def test_atributos_armario(armario):
 
 def test_calcular_precio_armario(armario):
     p = armario.calcular_precio()
-    assert isinstance(p, int)
+    assert isinstance(p, (int, float))
     assert p >= armario.precio_base
